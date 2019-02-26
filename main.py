@@ -3,9 +3,11 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://blogz:Doneatlast@localhost:8889/blogz'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://Blogz:blogz@localhost:8889/blogz'
 app.config['SQLALCHEMY_ECHO'] = True
+app.config['SECRET_KEY']="S\x9d\tB7&\xff\x07\n\xfa%9@A\x07"
 db = SQLAlchemy(app)
+SECRET_KEY = 'S\x9d\tB7&\xff\x07\n\xfa%9@A\x07'  
 
 
 class Blog(db.Model):
@@ -116,7 +118,7 @@ def blogreader():
         user = User.query.filter_by(id = userid).first()
         if user:
             blogs = Blog.query.filter_by(owner_id = user.id).all()
-            return render_template('individualuser.html', title=user.username, user=user, blogs=blogs)
+            return render_template('singleuser.html', title=user.username, user=user, blogs=blogs)
         else:
             blogs = Blog.query.filter_by(deleted=False).all()
             return render_template('blogreader.html', title="All Blog Posts", blogs=blogs)
